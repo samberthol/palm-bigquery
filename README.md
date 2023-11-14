@@ -28,7 +28,7 @@ In order to launch the script you will need the following :
 - A [service account](https://cloud.google.com/iam/docs/service-account-overview) on Google Cloud with [BigQuery Data Viewer](https://cloud.google.com/bigquery/docs/access-control-basic-roles)rights and download the [JSON key file](https://cloud.google.com/iam/docs/keys-create-delete).
 - [BigQuery API](https://console.cloud.google.com/marketplace/product/google/bigquery.googleapis.com) needs to be activated.
 
-### Deploy
+### Install dependencies
 
 To install the dependencies, you will need to run the following command
 ```
@@ -36,6 +36,7 @@ pip install langchain openai chromadb tiktoken tabulate sqlalchemy sqlalchemy-bi
 ```
 
 ### Set variables
+The following variables need to be set in the `launcher-PaLM.py` script before execution
 ```
 service_account_file = "your_sa_account_key_file.json"
 os.environ['GOOGLE_API_KEY'] = 'your_palm_api_key'
@@ -102,4 +103,4 @@ One great features of SQL Alchemy with LangChain is that you do not need to setu
 
 The `temperature` can be adjusted to throttle the "creativity" of your LLM. The `top_k` can be adjusted according to the token size accepted by your API.
 
-You can add a UI easily with Gradio or Strimlit on top of your project
+You can add a UI easily with Gradio or Strimlit on top of your project.
