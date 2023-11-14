@@ -6,7 +6,7 @@ The inception of this project was to evaluate if BigQuery could be interrogated 
 
 ## Architecture Design
 
-image
+![diagram](./assets/diagram.png)
 
 ## Components
 
