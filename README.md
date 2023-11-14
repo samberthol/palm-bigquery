@@ -1,6 +1,6 @@
 # Google PaLM on BigQuery with LangChain
 
-This project intends to provide a quick way to integrate **PaLM** with **BigQuery** in Python, using **SQLAlchemy** and **LangChain** to glue together the pieces. This is in no way a production ready artefact, it rather provides a proof of concept for testing purposes.
+This project intends to provide a quick way to integrate **PaLM** with **BigQuery** in Python, using **SQLAlchemy** and **LangChain** to glue together the pieces. Added Streamlit for a WebUI. This is in no way a production ready artefact, it rather provides a proof of concept for testing purposes.
 
 The inception of this project was to evaluate if BigQuery could be interrogated using an LLM. The results were rather satisfying, hence the publication. While not provided here, the integration with **ChatGPT** worked as well and can be switched with PaLM easily. 
 
@@ -17,6 +17,8 @@ The inception of this project was to evaluate if BigQuery could be interrogated 
 [LangChain](https://python.langchain.com/docs/get_started/introduction) provides an OSS suite of building blocks to chain LLM oriented tasks with reasoning like database queries, math, document loaders, vector dbs or parsers.
 
 [SQL Alchemy](https://www.sqlalchemy.org/) is a Python toolkit to provide an abstract layer to many popular databases.
+
+[Streamlit](https://blog.streamlit.io/langchain-tutorial-1-build-an-llm-powered-app-in-18-lines-of-code/) is a lighweight WebUI wrapper for Python.
 
 ## Setup
 
@@ -51,52 +53,11 @@ The variable `your_project_id` can be found [here](https://console.cloud.google.
 ### Running the script
 You can run the script using the following command
 ```
-python3 launcher-PaLM.py
+streamlit run launcher-PaLM.py
 ```
 
 Example output
-```
-Entering new AgentExecutor chain...
-Action: sql_db_list_tables
-Action Input: 
-Observation: events
-Thought:events is a relevant table.  I should query the schema of events to see what columns I can use.
-Action: sql_db_schema
-Action Input: events
-Observation: 
-CREATE TABLE `events` (
-	`user_id` INT64, 
-	`sequence_number` INT64, 
-	`session_id` STRING, 
-	`created_at` TIMESTAMP, 
-	`ip_address` STRING, 
-	`city` STRING, 
-	`state` STRING, 
-	`postal_code` STRING, 
-	`browser` STRING, 
-	`uri` STRING, 
-	`event_type` STRING, 
-	`ide` INT64, 
-	`traffic_sources` STRING
-)
-
-/*
-3 rows from events table:
-user_id	sequence_number	session_id	created_at	ip_address	city	state	postal_code	browser	uri	event_type	ide	traffic_sources
-41525	4	c75439e0-127d-4721-be6c-b03af9255b3f	2020-10-31 16:57:38+00:00	118.90.172.146	Bogatynia	Dolnośląskie	59	Chrome	/cart	cart	539126	Email
-None	3	2fc7f38e-d997-4c26-b493-48ad47aaf8b0	2022-04-07 02:35:00+00:00	83.132.130.52	Bogatynia	Dolnośląskie	59	Safari	/cart	cart	2271896	Adwords
-None	3	e35a5c16-85e2-412a-8226-5fe9285ab994	2021-12-29 03:09:00+00:00	162.176.5.118	Bogatynia	Dolnośląskie	59	Chrome	/cart	cart	2148147	Email
-*/
-Thought:The traffic_sources column contains the publisher sources.  I should group the results by traffic_sources and order by count desc.
-Action: sql_db_query
-Action Input: SELECT traffic_sources, count(*) AS count FROM events GROUP BY traffic_sources ORDER BY count DESC LIMIT 3
-Observation: [('Email', 1092153), ('Adwords', 730558), ('Facebook', 243532)]
-Thought:I now know the final answer
-Final Answer: The top 3 publisher sources are Email, Adwords, and Facebook.
-
-> Finished chain.
-'The top 3 publisher sources are Email, Adwords, and Facebook.'
-```
+![result](./assets/result.png)
 
 ## Comments
 One great features of SQL Alchemy with LangChain is that you do not need to setup a schema as it is created on the fly.
