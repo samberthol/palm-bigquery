@@ -32,7 +32,7 @@ In order to launch the script you will need the following :
 
 To install the dependencies, you will need to run the following command
 ```
-pip install langchain openai chromadb tiktoken tabulate sqlalchemy sqlalchemy-bigquery google-cloud-bigquery google-generativeai
+pip install langchain openai chromadb tiktoken tabulate sqlalchemy sqlalchemy-bigquery google-cloud-bigquery google-generativeai google-cloud-bigquery-storage streamlit
 ```
 
 ### Set variables
