@@ -101,9 +101,9 @@ Observation: The provided query does not seem to contain any of the common mista
 
 Here is the original query:
 
-```sql
+sql
 SELECT traffic_sources, COUNT(*) as source_count FROM `events` GROUP BY traffic_sources ORDER BY source_count DESC LIMIT 3
-```
+
 Thought:The query checker has confirmed that the query does not contain any common mistakes. Now I will execute the query to get the top 3 publisher sources.
 
 Action: sql_db_query
