@@ -58,9 +58,6 @@ python3 launcher-PaLM.py
 
 Example output
 ```
-$ python3 launcher-GPT.py 
-
-
 > Entering new AgentExecutor chain...
 Action: sql_db_list_tables
 Action Input: 
