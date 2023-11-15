@@ -116,6 +116,7 @@ Final Answer: The top 3 publisher sources from which users were coming are Email
 ```
 
 ## Using Streamlit
+Using this streamlit implementation assumes you have a Graphic UI on the system you are exectuting the script on so you can have a browser to access the WebUI. This will not work with a remotely executed python notebook for instance (e.g. Google Cloud Workbench)
 
 ### Changing the script
 Change the agent's execution from this 
@@ -132,7 +133,7 @@ if prompt := st.chat_input():
 '''
 ```
 
-To This 
+To this 
 ```
 '''
 agent_executor.run("From what top 3 publisher sources were users coming from?")
@@ -147,10 +148,9 @@ if prompt := st.chat_input():
 ```
 
 ### Running the script
-You can run the script using the following command. This will will run in the console and exit.
+You can then run streamlit the following command. This will will run in the console and open an browser locally to provide the WebUI.
 ```
 streamlit run launcher-PaLM.py
-python3 launcher-PaLM.py
 ```
 
 Example output
