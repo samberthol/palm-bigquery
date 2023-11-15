@@ -44,8 +44,10 @@ verbose=True,
 top_k=1000,
 )
 
+# Run the agent in console
 agent_executor.run("From what top 3 publisher sources were users coming from?")
 
+# Run the agent in Streamlit
 '''
 if prompt := st.chat_input():
     st.chat_message("user").write(prompt)
