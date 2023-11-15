@@ -157,5 +157,3 @@ Example output
 One great features of SQL Alchemy with LangChain is that you do not need to setup a schema as it is created on the fly.
 
 The `temperature` can be adjusted to throttle the "creativity" of your LLM. The `top_k` can be adjusted according to the token size accepted by your API.
-
-You can add a UI easily with Gradio or Streamlit on top of your project.
