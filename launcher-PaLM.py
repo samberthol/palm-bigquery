@@ -1,4 +1,3 @@
-#
 # Provided by Samuel Berthollier 
 # From Google - 2023
 #
@@ -45,10 +44,13 @@ verbose=True,
 top_k=1000,
 )
 
-# Launch Streamlit
+agent_executor.run("From what top 3 publisher sources were users coming from?")
+
+'''
 if prompt := st.chat_input():
     st.chat_message("user").write(prompt)
     with st.chat_message("assistant"):
         st_callback = StreamlitCallbackHandler(st.container())
         response = agent_executor.run(prompt, callbacks=[st_callback])
         st.write(response)
+'''
