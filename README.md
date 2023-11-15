@@ -18,7 +18,7 @@ The inception of this project was to evaluate if BigQuery could be interrogated 
 
 [SQL Alchemy](https://www.sqlalchemy.org/) is a Python toolkit to provide an abstract layer to many popular databases.
 
-[Streamlit](https://blog.streamlit.io/langchain-tutorial-1-build-an-llm-powered-app-in-18-lines-of-code/) is a lighweight WebUI wrapper for Python.
+(Optional)[Streamlit](https://blog.streamlit.io/langchain-tutorial-1-build-an-llm-powered-app-in-18-lines-of-code/) is a lighweight WebUI wrapper for Python.
 
 ## Setup
 
@@ -51,9 +51,106 @@ The JSON service account key file should be accessible to your script.
 The variable `your_project_id` can be found [here](https://console.cloud.google.com/home/dashboard). The variable `your_dataset` is defined when you import TheLook dataset from AnalyticsHub. You can set `your_table` to the `events` table from TheLook.
 
 ### Running the script
-You can run the script using the following command
+You can run the script using the following command. This will will run in the console and exit.
+```
+python3 launcher-PaLM.py
+```
+
+Example output
+```
+$ python3 launcher-GPT.py 
+
+
+> Entering new AgentExecutor chain...
+Action: sql_db_list_tables
+Action Input: 
+Observation: events
+Thought:The "events" table seems like it could contain information about user events, which might include data on publisher sources. I need to check the schema of the "events" table to find the relevant columns that could contain publisher source information.
+
+Action: sql_db_schema
+Action Input: events
+Observation: 
+CREATE TABLE `events` (
+        `user_id` INT64, 
+        `sequence_number` INT64, 
+        `session_id` STRING, 
+        `created_at` TIMESTAMP, 
+        `ip_address` STRING, 
+        `city` STRING, 
+        `state` STRING, 
+        `postal_code` STRING, 
+        `browser` STRING, 
+        `uri` STRING, 
+        `event_type` STRING, 
+        `ide` INT64, 
+        `traffic_sources` STRING
+)
+
+/*
+3 rows from events table:
+user_id sequence_number session_id      created_at      ip_address      city    state   postal_code     browser uri     event_type   ide     traffic_sources
+41525   4       c75439e0-127d-4721-be6c-b03af9255b3f    2020-10-31 16:57:38+00:00       118.90.172.146  Bogatynia       Dolnośląskie 59      Chrome  /cart   cart    539126  Email
+None    3       2fc7f38e-d997-4c26-b493-48ad47aaf8b0    2022-04-07 02:35:00+00:00       83.132.130.52   Bogatynia       Dolnośląskie 59      Safari  /cart   cart    2271896 Adwords
+None    3       e35a5c16-85e2-412a-8226-5fe9285ab994    2021-12-29 03:09:00+00:00       162.176.5.118   Bogatynia       Dolnośląskie 59      Chrome  /cart   cart    2148147 Email
+*/
+Thought:The `traffic_sources` column in the `events` table seems to be the relevant column for publisher sources. I will write a query to select the top 3 traffic sources by the count of their occurrences.
+
+Action: sql_db_query_checker
+Action Input: SELECT traffic_sources, COUNT(*) as source_count FROM `events` GROUP BY traffic_sources ORDER BY source_count DESC LIMIT 3
+Observation: The provided query does not seem to contain any of the common mistakes listed. It is a simple query that selects the `traffic_sources` column from the `events` table, counts the number of occurrences of each source, groups the results by `traffic_sources`, orders them in descending order by the count, and limits the output to the top 3 sources.
+
+Here is the original query:
+
+```sql
+SELECT traffic_sources, COUNT(*) as source_count FROM `events` GROUP BY traffic_sources ORDER BY source_count DESC LIMIT 3
+```
+Thought:The query checker has confirmed that the query does not contain any common mistakes. Now I will execute the query to get the top 3 publisher sources.
+
+Action: sql_db_query
+Action Input: SELECT traffic_sources, COUNT(*) as source_count FROM `events` GROUP BY traffic_sources ORDER BY source_count DESC LIMIT 3
+Observation: [('Email', 1092153), ('Adwords', 730558), ('Facebook', 243532)]
+Thought:I now know the final answer
+Final Answer: The top 3 publisher sources from which users were coming are Email, Adwords, and Facebook.
+
+> Finished chain.
+```
+
+## Using Streamlit
+
+### Changing the script
+Change the agent's execution from this 
+```
+agent_executor.run("From what top 3 publisher sources were users coming from?")
+
+'''
+if prompt := st.chat_input():
+    st.chat_message("user").write(prompt)
+    with st.chat_message("assistant"):
+        st_callback = StreamlitCallbackHandler(st.container())
+        response = agent_executor.run(prompt, callbacks=[st_callback])
+        st.write(response)
+'''
+```
+
+To This 
+```
+'''
+agent_executor.run("From what top 3 publisher sources were users coming from?")
+'''
+
+if prompt := st.chat_input():
+    st.chat_message("user").write(prompt)
+    with st.chat_message("assistant"):
+        st_callback = StreamlitCallbackHandler(st.container())
+        response = agent_executor.run(prompt, callbacks=[st_callback])
+        st.write(response)
+```
+
+### Running the script
+You can run the script using the following command. This will will run in the console and exit.
 ```
 streamlit run launcher-PaLM.py
+python3 launcher-PaLM.py
 ```
 
 Example output
