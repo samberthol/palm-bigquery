@@ -48,7 +48,10 @@ table = "you_table"
 ```
 Notes
 The JSON service account key file should be accessible to your script.
-The variable `your_project_id` can be found [here](https://console.cloud.google.com/home/dashboard). The variable `your_dataset` is defined when you import TheLook dataset from AnalyticsHub. You can set `your_table` to the `events` table from TheLook.
+
+The variable `your_project_id` can be found [here](https://console.cloud.google.com/home/dashboard). 
+
+The variable `your_dataset` is defined when you import TheLook dataset from AnalyticsHub. You can set `your_table` to the `events` table from TheLook. You can also comment out the table variable as SQL Alchemy car handle the whole schema. This will allow to JOIN tables but can generate more hallucinations or false/positives.
 
 ### Running the script
 You can run the script using the following command. This will will run in the console and exit.
