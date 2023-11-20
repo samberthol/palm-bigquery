@@ -1,5 +1,5 @@
 # Provided by Samuel Berthollier 
-# From Google - 2023
+# This is a personal project
 #
 
 # Load all dependencies
